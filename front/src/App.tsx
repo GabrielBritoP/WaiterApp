@@ -1,5 +1,13 @@
-import React from 'react';
+import { Header } from "./components/Header/Header";
+import { Orders } from "./components/Orders";
+import { GlobalStyles } from "./styles/GlobalStyles";
 
-export function App(){
-  return <h1>teste</h1>
+export function App() {
+  return (
+    <>
+      <GlobalStyles />
+      <Header />
+      <Orders />
+    </>
+  )
 }
