@@ -6,7 +6,6 @@ export const Board = styled.div`
     border-radius: 16px;
     align-items: center;
     flex-direction: column;
-    justify-content: center;
     flex: 1;
     > header {
         padding: 8px;

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Order } from "../../types/Order";
 import { OrderModal } from "../OrderModal";
 import { Board, OrdersContainer } from "./styles";
+import { api } from "../../utils/api";
 interface OrdersBoardProps {
   icon: string;
   title: string;
@@ -11,6 +12,7 @@ interface OrdersBoardProps {
 export function OrdersBoard({ icon, title, orders }: OrdersBoardProps) {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [selectedOrder, setSelectedOrder] = useState<Order>({} as Order)
+  const [isLoading, setIsLoading] = useState(false)
   function handleOpenModal(order: Order) {
     setIsModalVisible(true)
     setSelectedOrder(order)
@@ -20,10 +22,17 @@ export function OrdersBoard({ icon, title, orders }: OrdersBoardProps) {
     setIsModalVisible(false)
     setSelectedOrder({} as Order)
   }
+
+  async function handleCancelOrder() {
+    setIsLoading(true)
+    await api.delete(`/orders/${selectedOrder?._id}`)
+    setIsLoading(false)
+  }
+
   return (
     <>
       <Board>
-        <OrderModal visible={isModalVisible} order={selectedOrder} onClose={() => handlerCloseModal()} />
+        <OrderModal visible={isModalVisible} order={selectedOrder} onCancel={() => handleCancelOrder()} onClose={() => handlerCloseModal()} />
         <header>
           <span>{icon}</span>
           <strong>{title}</strong>

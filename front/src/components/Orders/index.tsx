@@ -1,36 +1,25 @@
+import { Order } from "../../types/Order";
+import { api } from "../../utils/api";
 import { OrdersBoard } from "../OrdersBoard";
 import { Container, } from "./styles";
+import { useEffect, useState } from "react";
 
 
 export function Orders() {
-  const MockOrders = [
-    {
-      _id: '1',
-      table: 'table',
-      status: 'WAITING',
-      products: [
-        {
-          _id: '1',
-          quantity: 2,
-          product: {
-            name: 'Coffee',
-            imagePath: '',
-            price: 3.90,
-          },
-          name: 'Order',
-          price: 3.90,
-          flavor: '',
-          complement: 'complement',
-          qtd: 1,
-        }
-      ]
-    }
-  ];
+  const [orders, setOrders] = useState<Order[]>([]);
+  useEffect(() => {
+    api.get('/orders').then((response) => {
+      setOrders(response.data)
+    })
+  }, [])
+  const waiting = orders.filter((order) => order.status === 'WAITING')
+  const inProduction = orders.filter((order) => order.status === 'IN_PRODUCTION')
+  const done = orders.filter((order) => order.status === 'DONE')
   return (
     <Container>
-      <OrdersBoard icon="⏱️" title="titulo" orders={MockOrders} />
-      <OrdersBoard icon="⏱️" title="titulo" />
-      <OrdersBoard icon="⏱️" title="titulo" />
+      <OrdersBoard icon="⏱️" title="titulo" orders={waiting} />
+      <OrdersBoard icon="⏱️" title="titulo" orders={inProduction} />
+      <OrdersBoard icon="⏱️" title="titulo" orders={done} />
 
     </Container>
   )

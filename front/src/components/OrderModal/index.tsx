@@ -6,9 +6,11 @@ interface OrderModalProps {
   visible: boolean;
   order: Order;
   onClose: () => void;
+  onCancel: () => Promise<void>;
+  isLoading?: boolean;
 }
 
-export function OrderModal({ visible, order, onClose }: OrderModalProps) {
+export function OrderModal({ visible, order, onClose, onCancel, isLoading }: OrderModalProps) {
   if (!visible || !order) return null
   // let total = 0;
   // order.products.map(({ product, quantity }) => {
@@ -57,7 +59,7 @@ export function OrderModal({ visible, order, onClose }: OrderModalProps) {
           <button type="button" className="primary">
             <span>👨‍🍳</span>
             <strong>Iniciar Produção</strong></button>
-          <button type="button" className="secondary">Cancelar</button>
+          <button type="button" className="secondary" onClick={onCancel}>Cancelar</button>
         </Actions>
       </ModalBody>
     </Overlay>
