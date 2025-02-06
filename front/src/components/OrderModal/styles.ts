@@ -98,6 +98,10 @@ export const OrderDetails = styled.div`
 export const Actions = styled.footer`
     display: flex;
     flex-direction: column;
+    button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
     .primary {
         background: #333333;
         border-radius: 48px;

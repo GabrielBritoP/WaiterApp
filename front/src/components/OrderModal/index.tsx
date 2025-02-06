@@ -8,9 +8,10 @@ interface OrderModalProps {
   onClose: () => void;
   onCancel: () => Promise<void>;
   isLoading?: boolean;
+  onChangeOrderStatus: () => void;
 }
 
-export function OrderModal({ visible, order, onClose, onCancel, isLoading }: OrderModalProps) {
+export function OrderModal({ visible, order, onClose, onCancel, isLoading, onChangeOrderStatus }: OrderModalProps) {
   if (!visible || !order) return null
   // let total = 0;
   // order.products.map(({ product, quantity }) => {
@@ -56,10 +57,16 @@ export function OrderModal({ visible, order, onClose, onCancel, isLoading }: Ord
           </div>
         </OrderDetails>
         <Actions>
-          <button type="button" className="primary">
+          {order.status !== 'DONE' && (
+            <button onClick={onChangeOrderStatus} type="button" className="primary" disabled={isLoading}>
+
+              <span>{order.status === 'WAITING' ? '👨‍🍳' : '✅'}</span>
+              <strong>{order.status === 'WAITING' ? 'Iniciar Produção' : 'Concluir Pedido'}</strong>
+            </button>)}
+          <button type="button" className="primary" disabled={isLoading}>
             <span>👨‍🍳</span>
             <strong>Iniciar Produção</strong></button>
-          <button type="button" className="secondary" onClick={onCancel}>Cancelar</button>
+          <button type="button" className="secondary" disabled={isLoading} onClick={onCancel}>Cancelar</button>
         </Actions>
       </ModalBody>
     </Overlay>
